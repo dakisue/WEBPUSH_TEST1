@@ -10,6 +10,8 @@
     var API_KEY = 'AIzaSyBZS5BZXkk9UXXfp8IRIiBJ_cWM_UOJV24';
     //var API_KEY = 'AAAAD1Du6MI:APA91bEM025KSJSmk584bUXAGLOMW_Jv5uMTsr9z38K58GkAF145LdM3EzxI2aadAPuMhY6iz2FyU7eMxK9qtbEXpT3f6aMB3hFjWFsPVc-mz-vbvBLIuK2GGcdc91oX8nflOr_pDzeQ9AqlOQkFjZFWsr7IFJn6YA';
     var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
+    var curlCommandTxt = "下記をcURLにて実行してください"
+    
     function onLoad() {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
@@ -104,13 +106,12 @@
       }
       var endpointSections = mergedEndpoint.split('/');
       var subscriptionId = endpointSections[endpointSections.length - 1];
-      var curlCommandTxt = "下記をcURLにて実行してください"
       var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
         //' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"],\\"data\\":{\\"message\\":\\"Hello\\"}"}"';
       var frame = document.getElementById("command");
-      frame.innerText = curlCommandTxt;
+      frame.innerText = curlCommandTxt + "<br/>";
       frame.innerText += curlCommand;
     }
     function showSubscriptionInfo(subscription) {
