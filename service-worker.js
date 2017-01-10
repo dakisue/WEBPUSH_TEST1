@@ -6,13 +6,11 @@ self.addEventListener('push', function(event) {
   var body = 'ブラウザへメッセージを送信できます';
   var icon = 'mori.png';
   var tag = 'simple-push-demo-notification-tag';
-  var url = 'http://www.morisawa.co.jp/'
   event.waitUntil(
     self.registration.showNotification(title, {
       body: body,
       icon: icon,
-      tag: tag,
-      url: url
+      tag: tag
     })
   );
 });
@@ -30,7 +28,7 @@ self.addEventListener('notificationclick', function(event) {
       }
     }
     if (clients.openWindow) {
-      return clients.openWindow(client.url);
+      return clients.openWindow('http://www.morisawa.co.jp/');
     }
   }));
 });
