@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title></title>
+  <meta charset="utf-8" />
+  <link rel="manifest" href="manifest.json">
+  <script type="text/javascript">
+    //var API_KEY = 'AIzaSyA2qMhkexxdJO3HM8fxuFXlVj_VSb_fguc';
+    var API_KEY = 'AIzaSyBZS5BZXkk9UXXfp8IRIiBJ_cWM_UOJV24';
+    //var API_KEY = 'AAAAD1Du6MI:APA91bEM025KSJSmk584bUXAGLOMW_Jv5uMTsr9z38K58GkAF145LdM3EzxI2aadAPuMhY6iz2FyU7eMxK9qtbEXpT3f6aMB3hFjWFsPVc-mz-vbvBLIuK2GGcdc91oX8nflOr_pDzeQ9AqlOQkFjZFWsr7IFJn6YA';
+    var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
+    function onLoad() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
+      } else {
+        window.Demo.debug.log('Service workers aren\'t supported in this browser.');
+      }
+    }
+    
+    function initialiseState() {
+      if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+        window.Demo.debug.log('Notifications aren\'t supported.');
+        return;
+      }
+      if (Notification.permission === 'denied') {
+        window.Demo.debug.log('The user has blocked notifications.');
+        return;
+      }
+      if (!('PushManager' in window)) {
+        window.Demo.debug.log('Push messaging isn\'t supported.');
+        return;
+      }
+      navigator.serviceWorker.ready.then(ServiceWorkerRegistInit);
+    }
+    function ServiceWorkerRegistInit(serviceWorkerRegistration) {
+      serviceWorkerRegistration.pushManager.getSubscription().then(SubscriptionProcInit);
+    }
+    function SubscriptionProcInit(subscription) {
+      if (!subscription) {
+        return;
+      }
+      sendSubscriptionToServer(subscription);
+      /* Push が利用可能 */
+    }
+    /* Subscribe */
+    function SubscribePushNotification() {
+      navigator.serviceWorker.ready.then(ServiceWorkerRegist);
+    }
+    function ServiceWorkerRegist(serviceWorkerRegistration) {
+      /* Subscription 処理の開始前処理を記述 */
+      var subscribe = serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true });
+      subscribe.then(SubscriptionProc);
+    }
+    function SubscriptionProc(subscription) {
+      /* Subscription 完了時の処理を記述 */
+      return sendSubscriptionToServer(subscription);
+    }
+    function sendSubscriptionToServer(subscription) {
+      console.log('TODO: Implement sendSubscriptionToServer()');
+      var mergedEndpoint = endpointWorkaround(subscription);
+      /* サーバーに各種情報を送信 (今回は画面表示のため、処理なし)*/
+      /* 画面表示 */
+      showCurlCommand(mergedEndpoint);
+      showSubscriptionInfo(subscription);
+    }
+    /* エンドポイントの情報生成 */
+    function endpointWorkaround(pushSubscription) {
+      if (pushSubscription.endpoint.indexOf('https://android.googleapis.com/gcm/send') !== 0) {
+        return pushSubscription.endpoint;
+      }
+      var mergedEndpoint = pushSubscription.endpoint;
+      if (pushSubscription.subscriptionId &&
+        pushSubscription.endpoint.indexOf(pushSubscription.subscriptionId) === -1) {
+        mergedEndpoint = pushSubscription.endpoint + '/' +
+          pushSubscription.subscriptionId;
+      }
+      return mergedEndpoint;
+    }
+    /* UnSubscribe */
+    function UnSubscribePushNotification() {
+      navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
+    }
+    function ServiceWorkerUnregist(serviceWorkerRegistration) {
+      /* UnSubscription 処理の開始前処理を記述 */
+      var subscribe = serviceWorkerRegistration.pushManager.getSubscription();
+      subscribe.then(UnSubscriptionProc);
+    }
+    function UnSubscriptionProc(subscription) {
+      if (!subscription) {
+        return;
+      }
+      subscription.unsubscribe().then(UnSubscriptionComplete);
+    }
+    function UnSubscriptionComplete() {
+      /* UnSubscription 処理完了後の処理を記述 */
+    }
+    /* 情報の画面表示 */
+    function showCurlCommand(mergedEndpoint) {
+      if (mergedEndpoint.indexOf(GCM_ENDPOINT) !== 0) {
+        window.Demo.debug.log('This browser isn\'t currently ' +
+          'supported for this demo');
+        return;
+      }
+      var endpointSections = mergedEndpoint.split('/');
+      var subscriptionId = endpointSections[endpointSections.length - 1];
+      var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
+        '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
+        ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
+        //' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"],\\"data\\":{\\"message\\":\\"Hello\\"}"}"';
+      var frame = document.getElementById("command");
+      frame.innerText = curlCommand;
+    }
+    function showSubscriptionInfo(subscription) {
+      console.log(subscription);
+      console.log(subscription.getKey('p256dh'));
+      console.log(subscription.getKey('auth'));
+      /*いったんコメントアウト*/
+      /* var frame = document.getElementById("info");
+      frame.innerHTML = "Endpoint : " + subscription.endpoint + "<br/>";
+      frame.innerHTML += "p256dh Key : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))) + "<br/>";
+      frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; */    
+    }
+  </script>
+</head>
+<body onload="onLoad();">
+  <p>Demo Page</p>
+  <a href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br />
+  <a href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br />
+  <hr />
+  <p id="command"></p>
+  <hr />
+  <p id="info"></p>
+</body>
+</html>
