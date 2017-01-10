@@ -119,10 +119,10 @@
       console.log(subscription.getKey('p256dh'));
       console.log(subscription.getKey('auth'));
       /*いったんコメントアウト*/
-      /* var frame = document.getElementById("info");
+       var frame = document.getElementById("info");
       frame.innerHTML = "Endpoint : " + subscription.endpoint + "<br/>";
       frame.innerHTML += "p256dh Key : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))) + "<br/>";
-      frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; */    
+      frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; 
     }
   </script>
 </head>
