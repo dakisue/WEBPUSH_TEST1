@@ -111,8 +111,8 @@
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
         //' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"],\\"data\\":{\\"message\\":\\"Hello\\"}"}"';
       var frame = document.getElementById("command");
-      frame.innerText = curlCommandTxt + "<br/>";
-      frame.innerText += curlCommand;
+      frame.innerHTML = curlCommandTxt + "<br/>";
+      frame.innerHTML += curlCommand;
     }
     function showSubscriptionInfo(subscription) {
       console.log(subscription);
