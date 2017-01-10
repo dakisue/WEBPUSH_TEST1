@@ -104,12 +104,14 @@
       }
       var endpointSections = mergedEndpoint.split('/');
       var subscriptionId = endpointSections[endpointSections.length - 1];
+      var curlCommandTxt = "下記をcURLにて実行してください"
       var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
         //' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"],\\"data\\":{\\"message\\":\\"Hello\\"}"}"';
       var frame = document.getElementById("command");
-      frame.innerText = curlCommand;
+      frame.innerText = curlCommandTxt;
+      frame.innerText += curlCommand;
     }
     function showSubscriptionInfo(subscription) {
       console.log(subscription);
