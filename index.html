@@ -8,18 +8,27 @@
   <script type="text/javascript">
     //var API_KEY = 'AIzaSyA2qMhkexxdJO3HM8fxuFXlVj_VSb_fguc';
     var API_KEY = 'AIzaSyBZS5BZXkk9UXXfp8IRIiBJ_cWM_UOJV24';
+    //Firebase サーバーキーだとうまくいかない？旧GCMキーで設定。
     //var API_KEY = 'AAAAD1Du6MI:APA91bEM025KSJSmk584bUXAGLOMW_Jv5uMTsr9z38K58GkAF145LdM3EzxI2aadAPuMhY6iz2FyU7eMxK9qtbEXpT3f6aMB3hFjWFsPVc-mz-vbvBLIuK2GGcdc91oX8nflOr_pDzeQ9AqlOQkFjZFWsr7IFJn6YA';
     var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
-    var curlCommandTxt = "下記をcURLにて実行してください"
+    //テキスト変数
+    var curlCommandTxt = '【下記をcURLにて実行してください】';
+    var API_KEYCommandTxt = '【Firebase（プッシュサーバー）のサーバーキー】';
+    var GCM_ENDPOINTCommandTxt = '【Firebase（プッシュサーバー）のエンドポイント】';
+    var subscriptionIdCommandTxt = '【端末ID】';
     
+    // ページロードイベント
+    // onLoad()関数 サービスワーカーを登録
+    //
     function onLoad() {
       if ('serviceWorker' in navigator) {
+        //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
       } else {
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
     }
-    
+    //initialiseState() 関数　パーミッションチェックおよび動作対応環境確認
     function initialiseState() {
       if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
         window.Demo.debug.log('Notifications aren\'t supported.');
@@ -33,19 +42,29 @@
         window.Demo.debug.log('Push messaging isn\'t supported.');
         return;
       }
+      //サービスワーカー待機状態へ移行
       navigator.serviceWorker.ready.then(ServiceWorkerRegistInit);
     }
+    //subscriptionオブジェクトを取得
     function ServiceWorkerRegistInit(serviceWorkerRegistration) {
       serviceWorkerRegistration.pushManager.getSubscription().then(SubscriptionProcInit);
-    }
+    }　　
+    
+  　//引数に取得したsubscriptionオブジェクトの付与
+    //subscriptionオブジェクトがnullの場合は購読状態にしない
     function SubscriptionProcInit(subscription) {
       if (!subscription) {
         return;
       }
+      //エンドポイントやAPIキーなどをサーバーに送信
+      //今回は画面に表示のみ
       sendSubscriptionToServer(subscription);
       /* Push が利用可能 */
     }
-    /* Subscribe */
+　　
+　  // プッシュ通知の購読　ボタン押下
+    /* Subscribeボタン押下時 */
+    // 
     function SubscribePushNotification() {
       navigator.serviceWorker.ready.then(ServiceWorkerRegist);
     }
@@ -58,6 +77,7 @@
       /* Subscription 完了時の処理を記述 */
       return sendSubscriptionToServer(subscription);
     }
+    /*サーバーに各情報を送信するクラス　今回は画面表示のため*/
     function sendSubscriptionToServer(subscription) {
       console.log('TODO: Implement sendSubscriptionToServer()');
       var mergedEndpoint = endpointWorkaround(subscription);
@@ -79,7 +99,8 @@
       }
       return mergedEndpoint;
     }
-    /* UnSubscribe */
+　  // プッシュ通知の購読解除　ボタン押下
+    /* UnSubscribeボタン押下時 */
     function UnSubscribePushNotification() {
       navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
     }
@@ -97,6 +118,12 @@
     function UnSubscriptionComplete() {
       /* UnSubscription 処理完了後の処理を記述 */
     }
+    
+    /* デモ用情報の表示処理の追加 */
+    function showInfoCommand() {
+      
+    }
+    
     /* 情報の画面表示 */
     function showCurlCommand(mergedEndpoint) {
       if (mergedEndpoint.indexOf(GCM_ENDPOINT) !== 0) {
@@ -109,17 +136,31 @@
       var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
-        //' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"],\\"data\\":{\\"message\\":\\"Hello\\"}"}"';
+      
+      /*説明用のキー情報教示  */
+      var frameinfo = document.getElementById("push_info");
+      frameinfo.innerHTML = API_KEYCommandTxt + "<br/>";
+      frameinfo.innerHTML += API_KEY + "<br/>";
+      frameinfo.innerHTML += GCM_ENDPOINTCommandTxt + "<br/>";
+      frameinfo.innerHTML += GCM_ENDPOINT + "<br/>";
+      frameinfo.innerHTML += subscriptionIdCommandTxt  + "<br/>";
+      frameinfo.innerHTML += subscriptionId ;
+      
+      /*cUrlコマンド出力*/
       var frame = document.getElementById("command");
+      //frame.innerText = curlCommand;
       frame.innerHTML = curlCommandTxt + "<br/>";
       frame.innerHTML += curlCommand;
     }
+   
     function showSubscriptionInfo(subscription) {
       console.log(subscription);
       console.log(subscription.getKey('p256dh'));
       console.log(subscription.getKey('auth'));
-      /*いったんコメントアウト*/
-      /*var frame = document.getElementById("info");
+      
+      //暗号化情報は今回不要のためコメントアウト
+      /* 
+      var frame = document.getElementById("info");
       frame.innerHTML = "Endpoint : " + subscription.endpoint + "<br/>";
       frame.innerHTML += "p256dh Key : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))) + "<br/>";
       frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; 
@@ -128,9 +169,11 @@
   </script>
 </head>
 <body onload="onLoad();">
-  <p>Demo Page</p>
-  <a href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br />
-  <a href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br />
+  <p>Demo Page</p><br />
+  <a href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br />
+  <a href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br /><br />
+  <hr />
+  <p id="push_info"></p>  
   <hr />
   <p id="command"></p>
   <hr />
