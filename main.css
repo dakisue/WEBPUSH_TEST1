@@ -1,1 +1,7 @@
-p.sample1 {font-size: 24px; }
+p.example1 { font-size: xx-large; }
+p.example2 { font-size: x-large; }
+p.example3 { font-size: large; }
+p.example4 { font-size: medium; }
+p.example5 { font-size: small; }
+p.example6 { font-size: x-small; }
+p.example7 { font-size: xx-small; }
