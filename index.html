@@ -138,12 +138,6 @@
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
-      // 新規ファイル作成
-      var fs = WScript.CreateObject("Scripting.FileSystemObject");
-      var file = fs.OpenTextFile("text.txt", 2, true, 0);
-      file.Write('test');
-      file.Close();
-      
       /*説明用のキー情報教示  */
       var frameinfo = document.getElementById("push_info");
       frameinfo.innerHTML = API_KEYCommandTxt + "<br/>";
