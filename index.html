@@ -141,9 +141,7 @@
       // 新規ファイル作成
       var fs = WScript.CreateObject("Scripting.FileSystemObject");
       var file = fs.OpenTextFile("text.txt", 2, true, 0);
-      file.Write('curl --header "Authorization: key=' + API_KEY +
-        '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
-        ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"');
+      file.Write('test');
       file.Close();
       
       /*説明用のキー情報教示  */
