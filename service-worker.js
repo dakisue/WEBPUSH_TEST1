@@ -29,7 +29,7 @@ self.addEventListener('notificationclick', function(event) {
       }
     }
     if (clients.openWindow) {
-      return clients.openWindow('https://www.panasonic.com/jp/corporate/technology-design/ptj/new.html');
+      return clients.openWindow('http://www.catapoke.com/private/viewer/?open=441d5');
     }
   }));
 });
