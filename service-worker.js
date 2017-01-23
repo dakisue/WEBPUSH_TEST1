@@ -29,7 +29,7 @@ self.addEventListener('notificationclick', function(event) {
       }
     }
     if (clients.openWindow) {
-      return clients.openWindow('http://www.catapoke.com/private/viewer/?open=441d5');
+      return clients.openWindow('https://www.catapoke.com/private/viewer/?open=46658');
     }
   }));
 });
