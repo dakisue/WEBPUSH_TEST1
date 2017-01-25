@@ -23,12 +23,15 @@
     //
     function onLoad() {
       if ('serviceWorker' in navigator) {
+        alert("ようこそ１");
         //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
+        //オプトイン
+        navigator.serviceWorker.ready.then(ServiceWorkerRegist);
       } else {
+        alert("ようこそ２");
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
-      alert("ようこそ");
     }
     //initialiseState() 関数　パーミッションチェックおよび動作対応環境確認
     function initialiseState() {
@@ -103,9 +106,9 @@
     }
 　  // プッシュ通知の購読解除　ボタン押下
     /* UnSubscribeボタン押下時 => コメントアウト*/
-    function UnSubscribePushNotification() {
-    navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
-    }
+    //function UnSubscribePushNotification() {
+    //navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
+    //}
     function ServiceWorkerUnregist(serviceWorkerRegistration) {
       /* UnSubscription 処理の開始前処理を記述 */
       var subscribe = serviceWorkerRegistration.pushManager.getSubscription();
