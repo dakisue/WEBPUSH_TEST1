@@ -27,7 +27,7 @@
         //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
         //オプトイン
-        //alert('debug1');
+        alert('debug1');
         navigator.serviceWorker.ready.then(ServiceWorkerRegist);
         /* 実行ファイル出力に変更*/
       } else {
@@ -180,6 +180,7 @@
       */
     }
     
+    /*ファイル出力*/
     function SaveToFile(FileName,Stream) {
       if (window.navigator.msSaveBlob) {
         window.navigator.msSaveBlob(new Blob([Stream], { type: "text/plain" }), FileName);
