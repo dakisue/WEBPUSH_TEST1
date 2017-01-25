@@ -28,8 +28,6 @@
       } else {
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
-      //オプトインをonloadで処理
-      navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
     }
     //initialiseState() 関数　パーミッションチェックおよび動作対応環境確認
     function initialiseState() {
@@ -104,9 +102,9 @@
     }
 　  // プッシュ通知の購読解除　ボタン押下
     /* UnSubscribeボタン押下時 => コメントアウト*/
-    //function UnSubscribePushNotification() {
-      //navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
-    //}
+    function UnSubscribePushNotification() {
+    navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
+    }
     function ServiceWorkerUnregist(serviceWorkerRegistration) {
       /* UnSubscription 処理の開始前処理を記述 */
       var subscribe = serviceWorkerRegistration.pushManager.getSubscription();
