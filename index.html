@@ -142,6 +142,10 @@
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
       /* 実行ファイル出力に変更*/
+      function run(){    
+ 　　　 var Stream = curlCommand;
+ 　　　 SaveToFile('WEBPushMassage.bat',Stream);
+　　　}
       
       
       /*説明用のキー情報教示  */
@@ -174,6 +178,20 @@
       frame.innerHTML += "p256dh Key : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))) + "<br/>";
       frame.innerHTML += "Authentication Secret : " + btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))) + "<br/>"; 
       */
+    }
+    
+    function SaveToFile(FileName,Stream) {
+      if (window.navigator.msSaveBlob) {
+        window.navigator.msSaveBlob(new Blob([Stream], { type: "text/plain" }), FileName);
+      } else {
+       var a = document.createElement("a");
+       a.href = URL.createObjectURL(new Blob([Stream], { type: "text/plain" }));
+       //a.target   = '_blank';
+       a.download = FileName;
+       document.body.appendChild(a) //  FireFox specification
+       a.click();
+       document.body.removeChild(a) //  FireFox specification
+      }
     }
   </script>
 </head>
