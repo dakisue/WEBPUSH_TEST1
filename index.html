@@ -13,7 +13,8 @@
     //var API_KEY = 'AAAAD1Du6MI:APA91bEM025KSJSmk584bUXAGLOMW_Jv5uMTsr9z38K58GkAF145LdM3EzxI2aadAPuMhY6iz2FyU7eMxK9qtbEXpT3f6aMB3hFjWFsPVc-mz-vbvBLIuK2GGcdc91oX8nflOr_pDzeQ9AqlOQkFjZFWsr7IFJn6YA';
     var GCM_ENDPOINT = 'https://android.googleapis.com/gcm/send';
     //テキスト変数
-    var curlCommandTxt = '【下記をcURLにて実行してください】';
+    //var curlCommandTxt = '【下記をcURLにて実行してください】';
+    var ReadMessage = 'プッシュメッセージ登録中'
     var API_KEYCommandTxt = '【Firebase（プッシュサーバー）のサーバーキー】';
     var GCM_ENDPOINTCommandTxt = '【Firebase（プッシュサーバー）のエンドポイント】';
     var subscriptionIdCommandTxt = '【端末ID】';
@@ -23,13 +24,13 @@
     //
     function onLoad() {
       if ('serviceWorker' in navigator) {
-        alert("ようこそ１");
+        alert("debug1");
         //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
         //オプトイン
         navigator.serviceWorker.ready.then(ServiceWorkerRegist);
       } else {
-        alert("ようこそ２");
+        alert("debug2");
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
     }
@@ -143,19 +144,21 @@
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
       /*説明用のキー情報教示  */
-      var frameinfo = document.getElementById("push_info");
-      frameinfo.innerHTML = API_KEYCommandTxt + "<br/>";
-      frameinfo.innerHTML += API_KEY + "<br/>";
-      frameinfo.innerHTML += GCM_ENDPOINTCommandTxt + "<br/>";
-      frameinfo.innerHTML += GCM_ENDPOINT + "<br/>";
-      frameinfo.innerHTML += subscriptionIdCommandTxt  + "<br/>";
-      frameinfo.innerHTML += subscriptionId ;
+      //var frameinfo = document.getElementById("push_info");
+      //frameinfo.innerHTML = API_KEYCommandTxt + "<br/>";
+      //frameinfo.innerHTML += API_KEY + "<br/>";
+      //frameinfo.innerHTML += GCM_ENDPOINTCommandTxt + "<br/>";
+      //frameinfo.innerHTML += GCM_ENDPOINT + "<br/>";
+      //frameinfo.innerHTML += subscriptionIdCommandTxt  + "<br/>";
+      //frameinfo.innerHTML += subscriptionId ;
       
       /*cUrlコマンド出力*/
-      var frame = document.getElementById("command");
+      //var frame = document.getElementById("command");
       //frame.innerText = curlCommand;
-      frame.innerHTML = curlCommandTxt + "<br/>";
-      frame.innerHTML += curlCommand;
+      //frame.innerHTML = curlCommandTxt + "<br/>";
+      //frame.innerHTML += curlCommand;
+      var frame = document.getElementById("command");
+      frame.innerHTML = ReadMessage;
     }
    
     function showSubscriptionInfo(subscription) {
@@ -174,9 +177,9 @@
   </script>
 </head>
 <body onload="onLoad();">
-  <p style="font-size : larger">Demo Page</p><br />
-  <a style="font-size : medium" href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br />
-  <a style="font-size : medium" href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br /><br />
+  <p style="font-size : larger">WEBプッシュのデモンストレーションサイトです</p><br />
+  <!-- <a style="font-size : medium" href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br /> -->
+  <a style="font-size : medium" href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読をします</a><br /><br />
   <hr />
   <p style="font-size : medium" id="push_info"></p>  
   <hr />
