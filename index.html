@@ -30,9 +30,6 @@
         //alert('debug1');
         navigator.serviceWorker.ready.then(ServiceWorkerRegist);
         /* 実行ファイル出力に変更*/
-        alert("プッシュメッセージの登録を行いました。出力される実行ファイルをメッセージ配信サーバで実行してください");
-        var Stream = curlCommand;
-        SaveToFile('WEBPushMassage.bat',Stream);
       } else {
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
@@ -92,7 +89,8 @@
       var mergedEndpoint = endpointWorkaround(subscription);
       /* サーバーに各種情報を送信 (今回は画面表示のため、処理なし)*/
       /* 画面表示 */
-      showCurlCommand(mergedEndpoint);
+      // 画面表示コメントアウト
+      // showCurlCommand(mergedEndpoint);
       showSubscriptionInfo(subscription);
     }
     /* エンドポイントの情報生成 */
@@ -146,8 +144,9 @@
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
-
-    
+      alert("プッシュメッセージの登録を行いました。出力される実行ファイルをメッセージ配信サーバで実行してください");
+      var Stream = curlCommand;
+      SaveToFile('WEBPushMassage.bat',Stream);
       
       /*説明用のキー情報教示  */
       //var frameinfo = document.getElementById("push_info");
