@@ -53,9 +53,9 @@
     //subscriptionオブジェクトを取得
     function ServiceWorkerRegistInit(serviceWorkerRegistration) {
       serviceWorkerRegistration.pushManager.getSubscription().then(SubscriptionProcInit);
-    }　　
+    }
     
-  　//引数に取得したsubscriptionオブジェクトの付与
+    //引数に取得したsubscriptionオブジェクトの付与
     //subscriptionオブジェクトがnullの場合は購読状態にしない
     function SubscriptionProcInit(subscription) {
       if (!subscription) {
@@ -66,8 +66,8 @@
       sendSubscriptionToServer(subscription);
       /* Push が利用可能 */
     }
-　　
-　  // プッシュ通知の購読　ボタン押下
+    
+    // プッシュ通知の購読　ボタン押下
     /* Subscribeボタン押下時 */
     // 
     //function SubscribePushNotification() {
@@ -104,7 +104,7 @@
       }
       return mergedEndpoint;
     }
-　  // プッシュ通知の購読解除　ボタン押下
+    // プッシュ通知の購読解除　ボタン押下
     /* UnSubscribeボタン押下時 => コメントアウト*/
     //function UnSubscribePushNotification() {
     //navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
@@ -144,9 +144,8 @@
       
       /* 実行ファイル出力に変更*/
       alert("プッシュメッセージの登録を行いました。出力される実行ファイルをメッセージ配信サーバで実行してください");
- 　　 var Stream = curlCommand;
-   　 SaveToFile('WEBPushMassage.bat',Stream);
-
+      var Stream = curlCommand;
+      SaveToFile('WEBPushMassage.bat',Stream);
     
       
       /*説明用のキー情報教示  */
