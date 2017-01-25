@@ -27,6 +27,7 @@
         //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
         //オプトイン
+        alert('debug1');
         navigator.serviceWorker.ready.then(ServiceWorkerRegist);
       } else {
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
