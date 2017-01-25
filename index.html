@@ -24,13 +24,11 @@
     //
     function onLoad() {
       if ('serviceWorker' in navigator) {
-        alert("debug1");
         //サービスワーカー登録
         navigator.serviceWorker.register('./service-worker.js').then(initialiseState);
         //オプトイン
         navigator.serviceWorker.ready.then(ServiceWorkerRegist);
       } else {
-        alert("debug2");
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
     }
@@ -142,6 +140,9 @@
       var curlCommand = 'curl --header "Authorization: key=' + API_KEY +
         '" --header Content-Type:"application/json" ' + GCM_ENDPOINT +
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
+      
+      /* 実行ファイル出力に変更*/
+      
       
       /*説明用のキー情報教示  */
       //var frameinfo = document.getElementById("push_info");
