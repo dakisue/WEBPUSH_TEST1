@@ -28,6 +28,8 @@
       } else {
         window.Demo.debug.log('Service workers aren\'t supported in this browser.');
       }
+      //オプトインをonloadで処理
+      navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
     }
     //initialiseState() 関数　パーミッションチェックおよび動作対応環境確認
     function initialiseState() {
@@ -101,10 +103,10 @@
       return mergedEndpoint;
     }
 　  // プッシュ通知の購読解除　ボタン押下
-    /* UnSubscribeボタン押下時 */
-    function UnSubscribePushNotification() {
-      navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
-    }
+    /* UnSubscribeボタン押下時 => コメントアウト*/
+    //function UnSubscribePushNotification() {
+      //navigator.serviceWorker.ready.then(ServiceWorkerUnregist);
+    //}
     function ServiceWorkerUnregist(serviceWorkerRegistration) {
       /* UnSubscription 処理の開始前処理を記述 */
       var subscribe = serviceWorkerRegistration.pushManager.getSubscription();
@@ -171,7 +173,7 @@
 </head>
 <body onload="onLoad();">
   <p style="font-size : larger">Demo Page</p><br />
-  <a style="font-size : medium" href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br />
+  <!--<a style="font-size : medium" href="#" onclick="SubscribePushNotification();">プッシュ通知の購読</a><br /><br /> -->
   <a style="font-size : medium" href="#" onclick="UnSubscribePushNotification();">プッシュ通知の購読解除</a><br /><br />
   <hr />
   <p style="font-size : medium" id="push_info"></p>  
