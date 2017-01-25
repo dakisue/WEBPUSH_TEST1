@@ -69,9 +69,9 @@
 　  // プッシュ通知の購読　ボタン押下
     /* Subscribeボタン押下時 */
     // 
-    function SubscribePushNotification() {
-      navigator.serviceWorker.ready.then(ServiceWorkerRegist);
-    }
+    //function SubscribePushNotification() {
+    //  navigator.serviceWorker.ready.then(ServiceWorkerRegist);
+    //}
     function ServiceWorkerRegist(serviceWorkerRegistration) {
       /* Subscription 処理の開始前処理を記述 */
       var subscribe = serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true });
@@ -142,7 +142,6 @@
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
       /* 実行ファイル出力に変更*/
-      
       alert("プッシュメッセージの登録を行いました。出力される実行ファイルをメッセージ配信サーバで実行してください");
  　　 var Stream = curlCommand;
    　 SaveToFile('WEBPushMassage.bat',Stream);
