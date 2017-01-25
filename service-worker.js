@@ -2,8 +2,8 @@
 
 self.addEventListener('push', function(event) {
   console.log('Received a push message', event);
-  var title = '○○技報　最新刊のご案内';
-  var body = '特集：○○分野の新技術の発表';
+  var title = '産学官連携ジャーナルより';
+  var body = '産学官連携ジャーナル２０１７年１月号配信のご案内';
   var icon = 'mori.png';
   var tag = 'simple-push-demo-notification-tag';
    
