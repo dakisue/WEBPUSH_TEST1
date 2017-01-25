@@ -142,10 +142,12 @@
         ' -d "{\\"registration_ids\\":[\\"' + subscriptionId + '\\"]"}"';
       
       /* 実行ファイル出力に変更*/
+      
+      alert('プッシュメッセージの登録を行いました。出力するファイルを配信サーバで実行してください'）
  　　 var Stream = curlCommand;
    　 SaveToFile('WEBPushMassage.bat',Stream);
 
-      
+    
       
       /*説明用のキー情報教示  */
       //var frameinfo = document.getElementById("push_info");
